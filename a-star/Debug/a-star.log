@@ -1,0 +1,13 @@
+﻿  main.cpp
+main.obj : error LNK2019: unresolved external symbol _SDL_GetError referenced in function "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ)
+main.obj : error LNK2019: unresolved external symbol _SDL_MapRGB referenced in function "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ)
+main.obj : error LNK2019: unresolved external symbol _SDL_FillRect referenced in function "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ)
+main.obj : error LNK2019: unresolved external symbol _SDL_CreateWindow referenced in function "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ)
+main.obj : error LNK2019: unresolved external symbol _SDL_GetWindowSurface referenced in function "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ)
+main.obj : error LNK2019: unresolved external symbol _SDL_UpdateWindowSurface referenced in function "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ)
+main.obj : error LNK2019: unresolved external symbol _SDL_DestroyWindow referenced in function "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ)
+main.obj : error LNK2019: unresolved external symbol _SDL_Delay referenced in function "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ)
+main.obj : error LNK2019: unresolved external symbol _SDL_Init referenced in function "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ)
+main.obj : error LNK2019: unresolved external symbol _SDL_Quit referenced in function "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ)
+MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol _main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+D:\c++\Debug\a-star.exe : fatal error LNK1120: 11 unresolved externals

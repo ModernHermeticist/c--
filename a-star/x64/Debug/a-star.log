@@ -1,0 +1,3 @@
+﻿  main.cpp
+D:\c++\a-star\main.cpp(43): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  a-star.vcxproj -> D:\c++\x64\Debug\a-star.exe
