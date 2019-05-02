@@ -1,2 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<DEFECTS></DEFECTS>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>f:\c--\a-star</FILEPATH>
+      <FILENAME>main.cpp</FILENAME>
+      <LINE>70</LINE>
+      <COLUMN>4</COLUMN>
+    </SFA>
+    <DEFECTCODE>6262</DEFECTCODE>
+    <DESCRIPTION>Function uses '58012' bytes of stack:  exceeds /analyze:stacksize '50000'.  Consider moving some data to heap.</DESCRIPTION>
+    <FUNCTION>SDL_main</FUNCTION>
+    <DECORATED>SDL_main</DECORATED>
+    <FUNCLINE>70</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

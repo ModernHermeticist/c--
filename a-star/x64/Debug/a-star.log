@@ -1,3 +1,4 @@
 ﻿  main.cpp
-D:\c++\a-star\main.cpp(43): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  a-star.vcxproj -> D:\c++\x64\Debug\a-star.exe
+F:\c--\a-star\main.cpp(116): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+f:\c--\a-star\main.cpp(70): warning C6262: Function uses '58012' bytes of stack:  exceeds /analyze:stacksize '50000'.  Consider moving some data to heap.
+  a-star.vcxproj -> F:\c--\x64\Debug\a-star.exe

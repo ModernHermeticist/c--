@@ -20,7 +20,7 @@ public:
 	vector<Spot*> neighbors;
 	Spot* previous = nullptr;
 
-	void addNeighbors(vector<vector<Spot>> &s, int cols, int rows);
+	void addNeighbors(vector<vector<Spot*>> s, int cols, int rows);
 
 private:
 };
