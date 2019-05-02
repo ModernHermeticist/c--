@@ -4,19 +4,19 @@
     <SFA>
       <FILEPATH>d:\c--\a-star</FILEPATH>
       <FILENAME>main.cpp</FILENAME>
-      <LINE>346</LINE>
+      <LINE>350</LINE>
       <COLUMN>11</COLUMN>
     </SFA>
     <DEFECTCODE>6246</DEFECTCODE>
-    <DESCRIPTION>Local declaration of 'L' hides declaration of the same name in outer scope. For additional information, see previous declaration at line '102' of 'd:\c--\a-star\main.cpp'.</DESCRIPTION>
+    <DESCRIPTION>Local declaration of 'L' hides declaration of the same name in outer scope. For additional information, see previous declaration at line '108' of 'd:\c--\a-star\main.cpp'.</DESCRIPTION>
     <FUNCTION>SDL_main</FUNCTION>
     <DECORATED>SDL_main</DECORATED>
-    <FUNCLINE>94</FUNCLINE>
+    <FUNCLINE>98</FUNCLINE>
     <PATH>
       <SFA>
         <FILEPATH>d:\c--\a-star</FILEPATH>
         <FILENAME>main.cpp</FILENAME>
-        <LINE>102</LINE>
+        <LINE>108</LINE>
         <COLUMN>12</COLUMN>
       </SFA>
     </PATH>
