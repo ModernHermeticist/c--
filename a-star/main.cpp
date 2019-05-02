@@ -1,11 +1,35 @@
 #include "main.h"
 using namespace std;
 
-const int SCREEN_WIDTH = 300;
-const int SCREEN_HEIGHT = 300;
+bool CheckLua(lua_State* L, int r)
+{
+	if (r != LUA_OK)
+	{
+		string errormsg = lua_tostring(L, -1);
+		cout << errormsg << endl;
+		return false;
+	}
+	return true;
+}
 
-const int spotWidth = 5;
-const int spotHeight = 5;
+void LoadSettings(lua_State * L, int& SCREEN_WIDTH, int& SCREEN_HEIGHT, int& spotWidth, int& spotHeight)
+{
+	lua_getglobal(L, "SCREEN_WIDTH");
+	if (lua_isnumber(L, -1))
+		SCREEN_WIDTH = (int)lua_tonumber(L, -1);
+
+	lua_getglobal(L, "SCREEN_HEIGHT");
+	if (lua_isnumber(L, -1))
+		SCREEN_HEIGHT = (int)lua_tonumber(L, -1);
+
+	lua_getglobal(L, "spotWidth");
+	if (lua_isnumber(L, -1))
+		spotWidth = (int)lua_tonumber(L, -1);
+
+	lua_getglobal(L, "spotHeight");
+	if (lua_isnumber(L, -1))
+		spotHeight = (int)lua_tonumber(L, -1);
+}
 
 
 vector<Spot*> removeFromVector(vector<Spot*> openSet, Spot *current)
@@ -69,12 +93,26 @@ vector<vector<Spot*>> delete2DVector(vector<vector<Spot*>> s, int rows, int cols
 
 int main(int argc, char* args[])
 {
+	int SCREEN_WIDTH = 800;
+	int SCREEN_HEIGHT = 800;
+
+	int spotWidth = 20;
+	int spotHeight = 20;
+
+	lua_State* L = luaL_newstate();
+	luaL_openlibs(L);
+
+	if (CheckLua(L, luaL_dofile(L, "stuff.lua")))
+	{
+		LoadSettings(L, SCREEN_WIDTH, SCREEN_HEIGHT, spotWidth, spotHeight);
+	}
+	lua_close(L);
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 	SDL_Surface* screenSurface = NULL;
 	SDL_Event e;
-	const int rows = SCREEN_WIDTH / spotWidth;
-	const int cols = SCREEN_HEIGHT / spotHeight;
+	int rows = SCREEN_WIDTH / spotWidth;
+	int cols = SCREEN_HEIGHT / spotHeight;
 	bool finished = false;
 	int sanityCheck = 0;
 	int closestDistance = 0;
@@ -109,27 +147,29 @@ int main(int argc, char* args[])
 	}
 	while (true)
 	{
+		rows = SCREEN_WIDTH / spotWidth;
+		cols = SCREEN_HEIGHT / spotHeight;
 		sanityCheck = 0;
 		finished = false;
 		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(renderer);
 		srand(time(0));
 		vector<vector<Spot*>> s(cols, tS);
-		SDL_Rect grid[rows][cols];
+		SDL_Rect *grid = new SDL_Rect[rows*cols];
 		// This loop constructs the grid in a 2D array
 		for (int i = 0; i < rows; i++)
 		{
 			for (int j = 0; j < cols; j++)
 			{
 				SDL_Rect rectToDraw = { spotWidth * i, spotHeight * j, spotWidth, spotHeight }; // Just some random rect
-				grid[i][j] = rectToDraw;
+				grid[i*cols+j] = rectToDraw;
 			}
 		}
 		cout << "Complete." << endl;
 		cout << "Assigning positions..." << endl;
 		s = build2DVector(s, rows, cols);
 		start = s[0][0];
-		end = s[cols - 1][rows - 1];
+		end = s[(double)cols - 1][(double)rows - 1];
 		start->wall = false;
 		end->wall = false;
 		closestDistance = heuristic(start, end);
@@ -233,7 +273,7 @@ int main(int argc, char* args[])
 				for (int j = 0; j < cols; j++)
 				{
 					if (s[i][j]->wall)
-						SDL_RenderFillRect(renderer, &grid[i][j]);
+						SDL_RenderFillRect(renderer, &grid[i * cols + j]);
 				}
 			}
 
@@ -243,7 +283,7 @@ int main(int argc, char* args[])
 			{
 				int i = closedSet[k]->i;
 				int j = closedSet[k]->j;
-				SDL_RenderFillRect(renderer, &grid[i][j]);
+				SDL_RenderFillRect(renderer, &grid[i * cols + j]);
 			}
 			// This loop draws the open set green on white
 			SDL_SetRenderDrawColor(renderer, 0x0, 0xFF, 0x0, 0xFF);
@@ -251,7 +291,7 @@ int main(int argc, char* args[])
 			{
 				int i = openSet[k]->i;
 				int j = openSet[k]->j;
-				SDL_RenderFillRect(renderer, &grid[i][j]);
+				SDL_RenderFillRect(renderer, &grid[i * cols + j]);
 			}
 
 			if (!finished)
@@ -277,7 +317,7 @@ int main(int argc, char* args[])
 			{
 				int i = path[k]->i;
 				int j = path[k]->j;
-				SDL_RenderFillRect(renderer, &grid[i][j]);
+				SDL_RenderFillRect(renderer, &grid[i * cols + j]);
 			}
 
 			SDL_SetRenderDrawColor(renderer, 0x0, 0x0, 0x0, 0xFF);
@@ -285,7 +325,7 @@ int main(int argc, char* args[])
 			{
 				for (int j = 0; j < cols; j++)
 				{
-					SDL_RenderDrawRect(renderer, &grid[i][j]);
+					SDL_RenderDrawRect(renderer, &grid[i * cols + j]);
 				}
 			}
 
@@ -300,6 +340,17 @@ int main(int argc, char* args[])
 		while (!openSet.empty()) openSet.erase(openSet.end() - 1);
 		while (!closedSet.empty()) closedSet.erase(closedSet.end() - 1);
 		while (!path.empty()) path.erase(path.end() - 1);
+
+		delete[] grid;
+
+		lua_State* L = luaL_newstate();
+		luaL_openlibs(L);
+
+		if (CheckLua(L, luaL_dofile(L, "stuff.lua")))
+		{
+			LoadSettings(L, SCREEN_WIDTH, SCREEN_HEIGHT, spotWidth, spotHeight);
+		}
+		lua_close(L);
 	}
 
 	SDL_DestroyWindow(window);

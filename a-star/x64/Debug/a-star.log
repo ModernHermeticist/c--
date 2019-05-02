@@ -1,4 +1,5 @@
 ﻿  main.cpp
-F:\c--\a-star\main.cpp(116): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-f:\c--\a-star\main.cpp(70): warning C6262: Function uses '58012' bytes of stack:  exceeds /analyze:stacksize '50000'.  Consider moving some data to heap.
-  a-star.vcxproj -> F:\c--\x64\Debug\a-star.exe
+D:\c--\a-star\main.cpp(156): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\c--\a-star\main.cpp(172): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+d:\c--\a-star\main.cpp(346): warning C6246: Local declaration of 'L' hides declaration of the same name in outer scope. For additional information, see previous declaration at line '102' of 'd:\c--\a-star\main.cpp'.: Lines: 102
+  a-star.vcxproj -> D:\c--\x64\Debug\a-star.exe
