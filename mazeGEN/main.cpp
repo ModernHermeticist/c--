@@ -6,8 +6,8 @@ int main(int argc, char* args[])
 	int SCREEN_WIDTH = 800;
 	int SCREEN_HEIGHT = 800;
 
-	int spotWidth = 25;
-	int spotHeight = 25;
+	int spotWidth = 15;
+	int spotHeight = spotWidth;
 
 	int solveSpeed = 0;
 
@@ -24,15 +24,120 @@ int main(int argc, char* args[])
 	SDL_Renderer* renderer = NULL;
 	SDL_Surface* screenSurface = NULL;
 	SDL_Event e;
-	int rows = SCREEN_WIDTH / spotWidth;
-	int cols = SCREEN_HEIGHT / spotHeight;
+	int rows = (SCREEN_WIDTH) / spotWidth;
+	int cols = (SCREEN_HEIGHT) / spotHeight;
+	int w = spotWidth;
 
 	vector<Cell*> grid = generateCellGrid(rows, cols);
+	vector<Cell*> stack;
 	Cell* current = grid[0];
+	current->Start();
+	grid.back()->End();
 
-	initSDL(window, renderer, screenSurface, SCREEN_WIDTH, SCREEN_HEIGHT);
+	vector<Cell*> tS(rows);
+	vector<Cell*> openSet;
+	vector<Cell*> closedSet;
+	vector<Cell*> path;
+	Cell* start = nullptr;
+	Cell* end = nullptr;
+
+	bool finished = false;
+
+	initSDL(window, renderer, screenSurface, SCREEN_WIDTH+1, SCREEN_HEIGHT+1);
+	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+	SDL_RenderClear(renderer);
+
+	clock_t beginT = clock();
+	while (true)
+	{
+		while (SDL_PollEvent(&e) != 0)
+		{
+			if (e.type == SDL_QUIT || (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)) return 0;
+		}
+		if (!draw(window, renderer, grid, stack, current, w, rows, cols)) break;
+		//SDL_Delay(1);
+	}
+	clock_t endT = clock();
+	cout << "Runtime: " << endT - beginT << endl;
+	for (int k = 0; k < grid.size(); k++)
+	{
+		grid[k]->addNeighbors(grid, rows, cols);
+	}
+
+	current = nullptr;
+	start = grid[0];
+	end = grid.back();
+
+	openSet.push_back(start);
+
+	/*
+	while (true)
+	{
+		while (SDL_PollEvent(&e) != 0)
+		{
+			if (e.type == SDL_QUIT || (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)) return 0;
+		}
+
+		if (openSet.size() > 0)
+		{
+			int lowestIndex = 0;
+			for (int i = 0; i < openSet.size(); i++)
+			{
+				if (openSet[i]->f() < openSet[lowestIndex]->f())
+				{
+					lowestIndex = i;
+				}
+			}
+			current = openSet[lowestIndex];
+
+			if (current->i() == end->i() && current->j() == end->j())
+			{
+				cout << "DONE!" << endl;
+				finished = true;
+			}
+
+			openSet = removeFromVector(openSet, current);
+			closedSet.push_back(current);
+
+			for (int i = 0; i < current->neighbors.size(); i++)
+			{
+				Cell* neighbor = current->neighbors[i];
+
+				if (!findCell(closedSet, neighbor))
+				{
+					// closedSet does not contain neighbor
+					// add walls here also
+					int tG = current->g() + 1;
+					if (findCell(openSet, neighbor))
+					{
+						if (tG < neighbor->g()) neighbor->g(tG);
+					}
+					else
+					{
+						neighbor->g(tG);
+						openSet.push_back(neighbor);
+					}
+					neighbor->h(heuristic(neighbor, end));
+					neighbor->f(neighbor->g() + neighbor->h());
+					neighbor->previous(current);
+				}
+			}
+		}
+		else
+		{
+			cout << "NO SOLUTION!" << endl;
+			finished = true;
+		}
+	}*/
+	//while (!openSet.empty()) openSet.erase(openSet.end() - 1);
+	//while (!closedSet.empty()) closedSet.erase(closedSet.end() - 1);
+	//while (!path.empty()) path.erase(path.end() - 1);
 
 	system("PAUSE");
+
+	for (int i = 0; i < grid.size(); i++)
+		delete grid[i];
+	grid.resize(0);
 
 	closeSDL(window);
 
@@ -40,6 +145,37 @@ int main(int argc, char* args[])
 	return 0;
 }
 
+
+bool draw(SDL_Window* window, SDL_Renderer* renderer, vector<Cell*> grid, vector<Cell*> &stack, Cell* &current, int w, int rows, int cols)
+{
+	for (int i = 0; i < grid.size(); i++)
+		grid[i]->show(renderer, w, false);
+	current->SetVisited(true);
+	current->highlight(renderer, w, 0x00, 0x00, 0xFF);
+
+	Cell* next = current->checkNeighbors(grid, rows, cols);
+	if (next)
+	{
+		next->SetVisited(true);
+		stack.push_back(current);
+		removeWalls(current, next);
+		current = next;
+	}
+	else if (stack.size() > 0)
+	{
+		current = stack.back();
+		stack.pop_back();
+	}
+	else
+	{
+		//for (int i = 0; i < grid.size(); i++)
+			//grid[i]->show(renderer, w, false);
+		//SDL_RenderPresent(renderer); //Update renderer
+		return false;
+	}
+	SDL_RenderPresent(renderer);
+	return true;
+}
 
 
 bool CheckLua(lua_State* L, int r)
@@ -76,7 +212,7 @@ void LoadSettings(lua_State * L, int& SCREEN_WIDTH, int& SCREEN_HEIGHT, int& spo
 		solveSpeed = (int)lua_tonumber(L, -1);
 }
 
-bool initSDL(SDL_Window* window, SDL_Renderer* renderer, SDL_Surface* screenSurface, int SCREEN_WIDTH, int SCREEN_HEIGHT)
+bool initSDL(SDL_Window* window, SDL_Renderer* &renderer, SDL_Surface* screenSurface, int SCREEN_WIDTH, int SCREEN_HEIGHT)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -102,6 +238,7 @@ bool initSDL(SDL_Window* window, SDL_Renderer* renderer, SDL_Surface* screenSurf
 			screenSurface = SDL_GetWindowSurface(window);
 		}
 	}
+	printf("SDL Initialized!\n");
 	return true;
 }
 
@@ -160,4 +297,32 @@ void removeWalls(Cell* a, Cell* b)
 		a->toggleWalls(2, false);
 		b->toggleWalls(0, false);
 	}
+}
+
+int heuristic(Cell* a, Cell* b)
+{
+	int d = abs(a->i() - b->i()) + abs(a->j() - b->j());
+	return d;
+}
+
+vector<Cell*> removeFromVector(vector<Cell*> openSet, Cell* current)
+{
+	for (int k = 0; k < openSet.size(); k++)
+	{
+		if (openSet[k]->i() == current->i() && openSet[k]->j() == current->j())
+		{
+			openSet.erase(openSet.begin() + k);
+			break;
+		}
+	}
+	return openSet;
+}
+
+bool findCell(vector<Cell*> set, Cell* s)
+{
+	for (int k = 0; k < set.size(); k++)
+	{
+		if (set[k]->i() == s->i() && set[k]->j() == s->j()) return true;
+	}
+	return false;
 }
