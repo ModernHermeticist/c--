@@ -15,9 +15,10 @@ int main(int argc, char* args[])
 	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 	SDL_RenderClear(renderer);
 
-	SDL_Rect r{ 0, 0, SCREEN_WIDTH, laneHeight };
-	SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
-	SDL_RenderFillRect(renderer, &r);
+	for (int k = 0; k < 14; k++)
+	{
+		drawGenericRect(renderer, 0, laneHeight*k, SCREEN_WIDTH, laneHeight, 0x0, 0xFF, 0xA0, 0xFF);
+	}
 
 	SDL_RenderPresent(renderer);
 	// MAIN LOOP
@@ -66,4 +67,11 @@ void closeSDL(SDL_Window* &window)
 	SDL_DestroyWindow(window);
 
 	SDL_Quit();
+}
+
+void drawGenericRect(SDL_Renderer* renderer, int xPos, int yPos, int width, int height, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+{
+	SDL_Rect rect{ xPos, yPos, width, height };
+	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+	SDL_RenderFillRect(renderer, &rect);
 }
