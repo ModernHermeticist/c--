@@ -20,8 +20,12 @@ const int SCREEN_HEIGHT = 800;
 
 const int lanes = 14;
 
+enum KeyCodes{Exit, Up, Left, Right, Down};
+
 bool initSDL(SDL_Window* &window, SDL_Renderer* &renderer, int SCREEN_WIDTH, int SCREEN_HEIGHT);
 void closeSDL(SDL_Window* &window);
 void drawGenericRect(SDL_Renderer* renderer, int xPos, int yPos, int width, int height, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+void drawBackground(SDL_Renderer* renderer, int laneHeight);
+int parseInput();
 
 #endif

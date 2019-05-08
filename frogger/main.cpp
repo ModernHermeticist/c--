@@ -15,23 +15,13 @@ int main(int argc, char* args[])
 	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 	SDL_RenderClear(renderer);
 
-	for (int k = 0; k < 14; k++)
-	{
-		drawGenericRect(renderer, 0, laneHeight*k, SCREEN_WIDTH, laneHeight, 0x0, 0xFF, 0xA0, 0xFF);
-	}
+	drawBackground(renderer, laneHeight);
 
 	SDL_RenderPresent(renderer);
 	// MAIN LOOP
 	while (!finished)
 	{
-		while (SDL_PollEvent(&e) != 0)
-		{
-			if (e.type == SDL_QUIT || (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
-			{
-				finished = true;
-				break;
-			}
-		}
+		if (parseInput() == 0) finished = true;
 	}
 	closeSDL(window);
 	return 0;
@@ -74,4 +64,25 @@ void drawGenericRect(SDL_Renderer* renderer, int xPos, int yPos, int width, int 
 	SDL_Rect rect{ xPos, yPos, width, height };
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
 	SDL_RenderFillRect(renderer, &rect);
+}
+
+void drawBackground(SDL_Renderer* renderer, int laneHeight)
+{
+	drawGenericRect(renderer, 0, 0, SCREEN_WIDTH, laneHeight / 4, 0x0, 0xFF, 0xA0, 0xFF);
+	drawGenericRect(renderer, 0, SCREEN_HEIGHT - laneHeight, SCREEN_WIDTH, laneHeight, 0x0, 0xFF, 0xA0, 0xFF);
+}
+
+int parseInput()
+{
+	SDL_Event e;
+
+
+	while (SDL_PollEvent(&e) != 0)
+	{
+		if (e.type == SDL_QUIT || (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
+		{
+			return Exit;
+		}
+	}
+	return -1;
 }
