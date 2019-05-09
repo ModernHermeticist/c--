@@ -97,19 +97,12 @@ bool bubbleSort(SDL_Renderer* renderer, std::vector<int> &v, int laneWidth)
 					drawGenericRect(renderer, laneWidth * k, SCREEN_HEIGHT, laneWidth, v[k] - SCREEN_HEIGHT, 0x0, 0x0, 0xFF, 0xFF);
 			}
 
-
-
-
 			if (v[j] < v[j + 1])
 			{
 				t = v[j];
 				v[j] = v[j + 1];
 				v[j + 1] = t;
 			}
-
-
-
-
 
 			while (SDL_PollEvent(&e) != 0)
 			{

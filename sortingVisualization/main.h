@@ -18,7 +18,7 @@ extern "C"
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 800;
 
-const int lanes = 250;
+const int lanes = 100;
 const int solveSpeed = 0;
 
 bool initSDL(SDL_Window*& window, SDL_Renderer*& renderer, int SCREEN_WIDTH, int SCREEN_HEIGHT);
