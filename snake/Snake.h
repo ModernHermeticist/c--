@@ -1,4 +1,19 @@
 #pragma once
+class Apple
+{
+public:
+	Apple(int _xPos, int _yPos)
+	{
+		xPos = _xPos;
+		yPos = _yPos;
+	};
+	~Apple() {};
+	int xPos;
+	int yPos;
+};
+
+
+
 class Cell
 {
 public:
@@ -17,9 +32,9 @@ public:
 class Snake
 {
 public:
-	enum Direction{up, right, down, left};
+	enum Direction{Up, Right, Down, Left};
 
-	int lastDirection = right;
+	int lastDirection = Right;
 
 	Snake(int _cellSize);
 	~Snake();
@@ -27,7 +42,7 @@ public:
 	int GetBodySize() { return body.size(); }
 	int GetCellSize() { return cellSize; }
 	Cell* GetCellFromBody(int index) { return body[index];}
-	void MoveSnake();
+	bool MoveSnake();
 
 private:
 	std::vector<Cell*> body;

@@ -9,6 +9,7 @@ extern "C"
 }
 
 #include <iostream>
+#include <stdlib.h>
 #include <vector>
 #include "Snake.h"
 
@@ -34,6 +35,7 @@ void initSnake(Snake* s);
 
 void drawBorder(SDL_Renderer* renderer, int cellHeight, int cellWidth);
 void drawSnake(SDL_Renderer* renderer, Snake* s);
+void drawApple(SDL_Renderer* renderer, Apple* a, int cellSize);
 
 int parseKeys(SDL_Event e);
 

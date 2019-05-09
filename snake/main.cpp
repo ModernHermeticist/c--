@@ -8,9 +8,13 @@ int main(int argc, char* args[])
 	int cellHeight = SCREEN_HEIGHT / cells;
 	int cellWidth = cellHeight;
 	int cellSize = cellWidth;
+	bool appleExists = false;
 
 	Snake* s = new Snake(cellSize);
-
+	Apple* a = new Apple(rand() % ((cells - 1) + 1) * cellSize, rand() % ((cells - 1) + 1) * cellSize);
+	std::cout << "apple xPos = " << a->xPos << std::endl;
+	std::cout << "apple yPos = " << a->yPos << std::endl;
+	Cell* front = s->GetCellFromBody(0);
 	bool finished = false;
 
 	if (!initSDL(window, renderer, SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -28,13 +32,25 @@ int main(int argc, char* args[])
 
 		drawSnake(renderer, s);
 
+		drawApple(renderer, a, cellSize);
+
 		SDL_RenderPresent(renderer);
 
-		s->MoveSnake();
+		if(!s->MoveSnake()) break;
+		if (front->xPos == a->xPos && front->yPos == a->yPos)
+		{
+			int newX = rand() % (cells - 2) + 1;
+			int newY = rand() % (cells - 2) + 1;
+			newX *= cellSize;
+			newY *= cellSize;
+			delete a;
+			s->AddCellToBody();
+			a = new Apple(newX, newY);
+			std::cout << "apple xPos = " << a->xPos << std::endl;
+			std::cout << "apple yPos = " << a->yPos << std::endl;
+		}
 
-
-
-		SDL_Delay(100);
+		SDL_Delay(75);
 		while (SDL_PollEvent(&e) != 0)
 		{
 			int kp = parseKeys(e);
@@ -43,10 +59,10 @@ int main(int argc, char* args[])
 				finished = true;
 				break;
 			}
-			else if (kp == GoLeft) s->lastDirection = s->left;
-			else if (kp == GoRight) s->lastDirection = s->right;
-			else if (kp == GoUp) s->lastDirection = s->up;
-			else if (kp == GoDown) s->lastDirection = s->down;
+			else if (kp == GoLeft) s->lastDirection = s->Left;
+			else if (kp == GoRight) s->lastDirection = s->Right;
+			else if (kp == GoUp) s->lastDirection = s->Up;
+			else if (kp == GoDown) s->lastDirection = s->Down;
 		}
 	}
 
@@ -113,9 +129,14 @@ void drawSnake(SDL_Renderer* renderer, Snake* s)
 	}
 }
 
+void drawApple(SDL_Renderer* renderer, Apple* a, int cellSize)
+{
+	drawGenericRect(renderer, a->xPos, a->yPos, cellSize, cellSize, 0xFF, 0x0, 0xA0, 0xFF);
+}
+
 void initSnake(Snake* s)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		s->AddCellToBody();
 	}

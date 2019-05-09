@@ -1,0 +1,33 @@
+﻿  main.cpp
+F:\c--\mazeGEN\main.cpp(63): warning C4018: '<': signed/unsigned mismatch
+F:\c--\mazeGEN\main.cpp(85): warning C4018: '<': signed/unsigned mismatch
+F:\c--\mazeGEN\main.cpp(98): warning C4018: '<': signed/unsigned mismatch
+F:\c--\mazeGEN\main.cpp(257): warning C4018: '<': signed/unsigned mismatch
+F:\c--\mazeGEN\main.cpp(270): warning C4018: '<': signed/unsigned mismatch
+cell.obj : error LNK2019: unresolved external symbol _SDL_SetRenderDrawColor referenced in function "public: void __thiscall Cell::highlight(struct SDL_Renderer *,int,unsigned char,unsigned char,unsigned char)" (?highlight@Cell@@QAEXPAUSDL_Renderer@@HEEE@Z)
+main.obj : error LNK2001: unresolved external symbol _SDL_SetRenderDrawColor
+cell.obj : error LNK2019: unresolved external symbol _SDL_RenderDrawLine referenced in function "public: void __thiscall Cell::show(struct SDL_Renderer *,int,bool)" (?show@Cell@@QAEXPAUSDL_Renderer@@H_N@Z)
+cell.obj : error LNK2019: unresolved external symbol _SDL_RenderFillRect referenced in function "public: void __thiscall Cell::highlight(struct SDL_Renderer *,int,unsigned char,unsigned char,unsigned char)" (?highlight@Cell@@QAEXPAUSDL_Renderer@@HEEE@Z)
+main.obj : error LNK2019: unresolved external symbol _lua_close referenced in function _SDL_main
+main.obj : error LNK2019: unresolved external symbol _lua_isnumber referenced in function "void __cdecl LoadSettings(struct lua_State *,int &,int &,int &,int &,int &)" (?LoadSettings@@YAXPAUlua_State@@AAH1111@Z)
+main.obj : error LNK2019: unresolved external symbol _lua_tonumberx referenced in function "void __cdecl LoadSettings(struct lua_State *,int &,int &,int &,int &,int &)" (?LoadSettings@@YAXPAUlua_State@@AAH1111@Z)
+main.obj : error LNK2019: unresolved external symbol _lua_tolstring referenced in function "bool __cdecl CheckLua(struct lua_State *,int)" (?CheckLua@@YA_NPAUlua_State@@H@Z)
+main.obj : error LNK2019: unresolved external symbol _lua_getglobal referenced in function "void __cdecl LoadSettings(struct lua_State *,int &,int &,int &,int &,int &)" (?LoadSettings@@YAXPAUlua_State@@AAH1111@Z)
+main.obj : error LNK2019: unresolved external symbol _lua_pcallk referenced in function _SDL_main
+main.obj : error LNK2019: unresolved external symbol _luaL_loadfilex referenced in function _SDL_main
+main.obj : error LNK2019: unresolved external symbol _luaL_newstate referenced in function _SDL_main
+main.obj : error LNK2019: unresolved external symbol _SDL_GetError referenced in function "bool __cdecl initSDL(struct SDL_Window *,struct SDL_Renderer * &,struct SDL_Surface *,int,int)" (?initSDL@@YA_NPAUSDL_Window@@AAPAUSDL_Renderer@@PAUSDL_Surface@@HH@Z)
+main.obj : error LNK2019: unresolved external symbol _SDL_CreateWindow referenced in function "bool __cdecl initSDL(struct SDL_Window *,struct SDL_Renderer * &,struct SDL_Surface *,int,int)" (?initSDL@@YA_NPAUSDL_Window@@AAPAUSDL_Renderer@@PAUSDL_Surface@@HH@Z)
+main.obj : error LNK2019: unresolved external symbol _SDL_GetWindowSurface referenced in function "bool __cdecl initSDL(struct SDL_Window *,struct SDL_Renderer * &,struct SDL_Surface *,int,int)" (?initSDL@@YA_NPAUSDL_Window@@AAPAUSDL_Renderer@@PAUSDL_Surface@@HH@Z)
+main.obj : error LNK2019: unresolved external symbol _SDL_DestroyWindow referenced in function "void __cdecl closeSDL(struct SDL_Window *)" (?closeSDL@@YAXPAUSDL_Window@@@Z)
+main.obj : error LNK2019: unresolved external symbol _SDL_PollEvent referenced in function _SDL_main
+main.obj : error LNK2019: unresolved external symbol _SDL_CreateRenderer referenced in function "bool __cdecl initSDL(struct SDL_Window *,struct SDL_Renderer * &,struct SDL_Surface *,int,int)" (?initSDL@@YA_NPAUSDL_Window@@AAPAUSDL_Renderer@@PAUSDL_Surface@@HH@Z)
+main.obj : error LNK2019: unresolved external symbol _SDL_RenderClear referenced in function _SDL_main
+main.obj : error LNK2019: unresolved external symbol _SDL_RenderPresent referenced in function "bool __cdecl draw(struct SDL_Window *,struct SDL_Renderer *,class std::vector<class Cell *,class std::allocator<class Cell *> >,class std::vector<class Cell *,class std::allocator<class Cell *> > &,class Cell * &,int,int,int)" (?draw@@YA_NPAUSDL_Window@@PAUSDL_Renderer@@V?$vector@PAVCell@@V?$allocator@PAVCell@@@std@@@std@@AAV34@AAPAVCell@@HHH@Z)
+main.obj : error LNK2019: unresolved external symbol _SDL_Init referenced in function "bool __cdecl initSDL(struct SDL_Window *,struct SDL_Renderer * &,struct SDL_Surface *,int,int)" (?initSDL@@YA_NPAUSDL_Window@@AAPAUSDL_Renderer@@PAUSDL_Surface@@HH@Z)
+main.obj : error LNK2019: unresolved external symbol _SDL_Quit referenced in function "void __cdecl closeSDL(struct SDL_Window *)" (?closeSDL@@YAXPAUSDL_Window@@@Z)
+MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol _main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+..\lua\liblua53.a : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+..\sdl\lib\x64\SDL2.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+..\sdl\lib\x64\SDL2main.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+F:\c--\Debug\mazeGEN.exe : fatal error LNK1120: 22 unresolved externals

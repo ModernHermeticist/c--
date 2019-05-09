@@ -3,6 +3,7 @@
 
 int main(int argc, char* args[])
 {
+
 	int SCREEN_WIDTH = 800;
 	int SCREEN_HEIGHT = 800;
 
@@ -69,71 +70,17 @@ int main(int argc, char* args[])
 	end = grid.back();
 
 	openSet.push_back(start);
-
-	/*
-	while (true)
+	bool exit = false;
+	while (!exit)
 	{
 		while (SDL_PollEvent(&e) != 0)
 		{
-			if (e.type == SDL_QUIT || (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)) return 0;
-		}
-
-		if (openSet.size() > 0)
-		{
-			int lowestIndex = 0;
-			for (int i = 0; i < openSet.size(); i++)
+			if (e.type == SDL_QUIT || (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
 			{
-				if (openSet[i]->f() < openSet[lowestIndex]->f())
-				{
-					lowestIndex = i;
-				}
-			}
-			current = openSet[lowestIndex];
-
-			if (current->i() == end->i() && current->j() == end->j())
-			{
-				cout << "DONE!" << endl;
-				finished = true;
-			}
-
-			openSet = removeFromVector(openSet, current);
-			closedSet.push_back(current);
-
-			for (int i = 0; i < current->neighbors.size(); i++)
-			{
-				Cell* neighbor = current->neighbors[i];
-
-				if (!findCell(closedSet, neighbor))
-				{
-					// closedSet does not contain neighbor
-					// add walls here also
-					int tG = current->g() + 1;
-					if (findCell(openSet, neighbor))
-					{
-						if (tG < neighbor->g()) neighbor->g(tG);
-					}
-					else
-					{
-						neighbor->g(tG);
-						openSet.push_back(neighbor);
-					}
-					neighbor->h(heuristic(neighbor, end));
-					neighbor->f(neighbor->g() + neighbor->h());
-					neighbor->previous(current);
-				}
-			}
+				exit = true;
+			};
 		}
-		else
-		{
-			cout << "NO SOLUTION!" << endl;
-			finished = true;
-		}
-	}*/
-	//while (!openSet.empty()) openSet.erase(openSet.end() - 1);
-	//while (!closedSet.empty()) closedSet.erase(closedSet.end() - 1);
-	//while (!path.empty()) path.erase(path.end() - 1);
-
-	system("PAUSE");
+	}
 
 	for (int i = 0; i < grid.size(); i++)
 		delete grid[i];
@@ -326,3 +273,5 @@ bool findCell(vector<Cell*> set, Cell* s)
 	}
 	return false;
 }
+
+
