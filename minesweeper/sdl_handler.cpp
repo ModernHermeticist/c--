@@ -7,7 +7,7 @@ bool initSDL(SDL_Window*& window, SDL_Renderer*& renderer, int SCREEN_WIDTH, int
 		std::cout << "SDL could not initalize! SDL_ERROR: " << SDL_GetError() << std::endl;
 		return false;
 	}
-	window = SDL_CreateWindow("Snake", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+	window = SDL_CreateWindow("Minesweeper", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 		SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL)
 	{

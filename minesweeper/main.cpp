@@ -8,10 +8,13 @@ int main(int argc, char* args[])
 	SDL_Event e;
 	std::vector<Cell*> cells;
 
-	int oldMouseX = 0;
-	int oldMouseY = 0;
+	int oldMouseX = -1;
+	int oldMouseY = -1;
+	int mouseX = -1;
+	int mouseY = -1;
 
 	bool finished = false;
+	bool toggleHighlightedCell = false;
 
 	GenerateGridofCells(cells);
 
@@ -28,37 +31,32 @@ int main(int argc, char* args[])
 
 		DrawGridofCells(renderer, cells);
 
-		SDL_RenderPresent(renderer);
-
-		while (SDL_PollEvent(&e) != 0)
+		if (toggleHighlightedCell || mouseX != oldMouseX && mouseY != oldMouseY)
 		{
-			if (e.type == SDL_MOUSEMOTION)
+			Cell* c = nullptr;
+			for (int i = 0; i < cellNum; i++)
 			{
-				int x = -1;
-				int y = -1;
-				SDL_GetMouseState(&x, &y);
-				if (x != oldMouseX && y != oldMouseY)
+				for (int j = 0; j < cellNum; j++)
 				{
-					Cell* c = nullptr;
-					for (int i = 0; i < cellNum; i++)
+					c = cells[i + j * cellNum];
+					if (toggleHighlightedCell)
 					{
-						for (int j = 0; j < cellNum; j++)
-						{
-							c = cells[i + j * cellNum];
-							if (c->compareXandY(x, y)) c->Highlight();
-						}
+						c->ToggleSelected();
+						toggleHighlightedCell = false;
+					}
+					else
+					{
+						if (c->compareXandY(mouseX, mouseY)) c->Highlight();
+						else if (!c->Selected()) c->ResetColor();
 					}
 				}
-				std::cout << "Mouse x: " << x << std::endl;
-				std::cout << "Mouse y: " << y << std::endl;
-				std::cout << std::endl;
-				oldMouseX = x;
-				oldMouseY = y;
 			}
+			oldMouseX = mouseX;
+			oldMouseY = mouseY;
 		}
 
+		SDL_RenderPresent(renderer);
 
-		SDL_Delay(1);
 		while (SDL_PollEvent(&e) != 0)
 		{
 			int kp = parseKeys(e);
@@ -66,6 +64,19 @@ int main(int argc, char* args[])
 			{
 				finished = true;
 				break;
+			}
+
+
+			if (e.type == SDL_MOUSEMOTION)
+			{
+				mouseX = -1;
+				mouseY = -1;
+				SDL_GetMouseState(&mouseX, &mouseY);
+			}
+
+			if (e.type == SDL_MOUSEBUTTONDOWN)
+			{
+				toggleHighlightedCell = true;
 			}
 		}
 	}
@@ -92,13 +103,13 @@ int parseKeys(SDL_Event e)
 
 void GenerateGridofCells(std::vector<Cell*>& vc)
 {
-	vc.resize(cellNum * cellNum);
+	//vc.resize(cellNum * cellNum);
 	for (int i = 0; i < cellNum; i++)
 	{
 		for (int j = 0; j < cellNum; j++)
 		{
 			Cell* c = new Cell(i * cellSize, j * cellSize);
-			vc[i + j * cellNum] = c;
+			vc.push_back(c);
 		}
 	}
 }

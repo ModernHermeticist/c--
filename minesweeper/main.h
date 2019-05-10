@@ -24,7 +24,7 @@ extern "C"
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 800;
 
-const int cellNum = 25;
+const int cellNum = 10;
 const int cellSize = SCREEN_HEIGHT / cellNum;
 
 enum KeyHandler{Quit};

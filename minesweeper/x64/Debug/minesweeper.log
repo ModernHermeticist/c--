@@ -1,1 +1,7 @@
-﻿  minesweeper.vcxproj -> F:\c--\x64\Debug\minesweeper.exe
+﻿  Cell.cpp
+  gui.cpp
+  main.cpp
+  sdl_handler.cpp
+  Generating Code...
+D:\c--\minesweeper\main.cpp(101): warning C4715: 'parseKeys': not all control paths return a value
+  minesweeper.vcxproj -> D:\c--\x64\Debug\minesweeper.exe

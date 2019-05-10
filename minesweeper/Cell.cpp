@@ -9,6 +9,7 @@ Cell::Cell(int _xPos, int _yPos)
 	col.r = 169;
 	col.g = 169;
 	col.b = 169;
+	selected = false;
 }
 
 
@@ -31,6 +32,24 @@ void Cell::Highlight()
 
 bool Cell::compareXandY(int x, int y)
 {
-	if (xPos <= x <= xPos + cellSize && yPos <= y <= yPos + cellSize) return true;
+	if (xPos <= x && x <= xPos + cellSize && yPos <= y && y <= yPos + cellSize) return true;
 	else return false;
+}
+
+void Cell::ResetColor()
+{
+	col.r = 169;
+	col.g = 169;
+	col.b = 169;
+}
+
+void Cell::ToggleSelected()
+{
+	if (selected) selected = false;
+	else selected = true;
+}
+
+void Cell::SetNeighbors(std::vector<Cell*> grid)
+{
+
 }
